@@ -1,24 +1,29 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Character } from '../../interfaces/character.interface';
+import { DbzService } from '../../services/dbz.service';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'dbz-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
+  constructor(public dbzService: DbzService) {}
 
   @Output()
-  public onDeletedCharacter: EventEmitter<number> = new EventEmitter();
+  public onDeletedCharacter: EventEmitter<string> = new EventEmitter();
 
-  public deleteCharacter(index: number): void {
-    this.onDeletedCharacter.emit(index);
+  public deleteCharacter( id: string ): void {
+    this.onDeletedCharacter.emit( id );
   }
 
   @Input()
-  public characterList: Character[] = [{
-    name: 'Trunks',
-    power: 10
-  }];
-
+  public characterList: Character[] = [
+    {
+      id: uuid(),
+      name: 'Trunks',
+      power: 10,
+    },
+  ];
 }
